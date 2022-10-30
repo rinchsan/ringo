@@ -15,7 +15,7 @@ import (
 )
 
 type ringo struct {
-	REST CmdREST `cmd:"" help:"Run REST Server"`
+	REST CmdREST `cmd:"rest" help:"Run REST Server"`
 }
 
 type CmdREST struct {
