@@ -3,3 +3,5 @@ module github.com/rinchsan/ringo
 go 1.19
 
 require github.com/go-chi/chi/v5 v5.0.7
+
+require go.uber.org/automaxprocs v1.5.1
