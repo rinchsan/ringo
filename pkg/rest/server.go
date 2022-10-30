@@ -30,20 +30,20 @@ func (s *Server) Run() (runerr error) {
 	defer stop()
 
 	go func() {
-		<-ctx.Done()
-		ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
-		defer cancel()
-		if err := s.httpServer.Shutdown(ctx); err != nil {
-			runerr = err
+		if err := s.httpServer.ListenAndServe(); err != nil {
+			switch err {
+			case http.ErrServerClosed:
+			default:
+				runerr = err
+			}
 		}
 	}()
 
-	if err := s.httpServer.ListenAndServe(); err != nil {
-		switch err {
-		case http.ErrServerClosed:
-		default:
-			return err
-		}
+	<-ctx.Done()
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+	if err := s.httpServer.Shutdown(ctx); err != nil {
+		return err
 	}
 
 	return nil
