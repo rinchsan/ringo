@@ -14,7 +14,7 @@ func main() {
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]interface{}{
-			"status": "ok",
+			"alive": true,
 		})
 	})
 

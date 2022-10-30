@@ -1,0 +1,16 @@
+services:
+
+  rest:
+    container_name: ringo-rest
+    build:
+      context: ../../
+      dockerfile: etc/docker/local/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ../../:/go/src/github.com/rinchsan/ringo
+
+networks:
+  default:
+    name: ringo
+    external: true
