@@ -47,5 +47,4 @@ func (s *Server) Run() (runerr error) {
 	}
 
 	return nil
-
 }
