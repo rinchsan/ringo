@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./bin/ringo"
+  bin = "./bin/ringo rest"
   cmd = "go build -o ./bin/ringo ./cmd/ringo"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]

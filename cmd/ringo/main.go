@@ -4,21 +4,24 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/alecthomas/kong"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	_ "go.uber.org/automaxprocs"
 )
 
-func main() {
-	os.Exit(run())
+type ringo struct {
+	REST CmdREST `cmd:"" help:"Run REST Server"`
 }
 
-func run() (code int) {
+type CmdREST struct {
+}
+
+func (c *CmdREST) Run() (runerr error) {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
@@ -35,7 +38,7 @@ func run() (code int) {
 		ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 		defer cancel()
 		if err := server.Shutdown(ctx); err != nil {
-			code = 1
+			runerr = err
 		}
 	}()
 
@@ -43,11 +46,11 @@ func run() (code int) {
 		switch err {
 		case http.ErrServerClosed:
 		default:
-			return 1
+			return err
 		}
 	}
 
-	return 0
+	return nil
 }
 
 func router() http.Handler {
@@ -67,4 +70,11 @@ func router() http.Handler {
 	})
 
 	return r
+}
+
+func main() {
+	var ringo ringo
+	ctx := kong.Parse(&ringo)
+	err := ctx.Run()
+	ctx.FatalIfErrorf(err)
 }
