@@ -25,24 +25,29 @@ func NewServer() *Server {
 	}
 }
 
-func (s *Server) Run() (runerr error) {
+func (s *Server) Run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
+	errCh := make(chan error)
 	go func() {
 		if err := s.httpServer.ListenAndServe(); err != nil {
 			switch err {
 			case http.ErrServerClosed:
 			default:
-				runerr = err
+				errCh <- err
 			}
 		}
 	}()
 
-	<-ctx.Done()
-	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
-	defer cancel()
-	if err := s.httpServer.Shutdown(ctx); err != nil {
+	select {
+	case <-ctx.Done():
+		ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+		defer cancel()
+		if err := s.httpServer.Shutdown(ctx); err != nil {
+			return err
+		}
+	case err := <-errCh:
 		return err
 	}
 
