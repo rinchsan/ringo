@@ -6,9 +6,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/rinchsan/ringo/pkg/zlog"
 )
 
-func router() http.Handler {
+func router(logger *zlog.Logger) http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
