@@ -11,6 +11,8 @@ import (
 )
 
 func TestLogger_Info(t *testing.T) {
+	t.Parallel()
+
 	buf := bytes.NewBuffer(nil)
 	l := zlog.NewLogger(buf)
 
@@ -18,7 +20,7 @@ func TestLogger_Info(t *testing.T) {
 		"msg":  "test info",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Info",
 		"file": "/pkg/zlog/zlog_test.go",
-		"line": float64(31),
+		"line": float64(33),
 	}
 	argsMap := map[string]any{
 		"foo": "bar",
@@ -54,6 +56,8 @@ func TestLogger_Info(t *testing.T) {
 }
 
 func TestLogger_Error(t *testing.T) {
+	t.Parallel()
+
 	buf := bytes.NewBuffer(nil)
 	l := zlog.NewLogger(buf)
 
@@ -62,7 +66,7 @@ func TestLogger_Error(t *testing.T) {
 		"msg":  "test error",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Error",
 		"file": "/pkg/zlog/zlog_test.go",
-		"line": float64(75),
+		"line": float64(79),
 	}
 	argsMap := map[string]any{
 		"foo": "bar",
@@ -94,5 +98,35 @@ func TestLogger_Error(t *testing.T) {
 		if got[k] != argsMap[k] {
 			t.Fatalf("want %#v, but got %#v for key '%s'", argsMap[k], got[k], k)
 		}
+	}
+}
+
+func TestRepoBase(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		filepath string
+		want     string
+	}{
+		"filepath on local": {
+			filepath: "/Users/rinchsan/go/src/github.com/rinchsan/ringo/pkg/zlog/zlog_test.go",
+			want:     "/pkg/zlog/zlog_test.go",
+		},
+		"filepath on GitHub Actions": {
+			filepath: "/home/runner/work/ringo/ringo/pkg/zlog/zlog_test.go",
+			want:     "/pkg/zlog/zlog_test.go",
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			got := zlog.RepoBase(c.filepath)
+			if got != c.want {
+				t.Fatalf("want %#v, but got %#v", c.want, got)
+			}
+		})
 	}
 }
