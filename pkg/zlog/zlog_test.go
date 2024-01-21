@@ -17,7 +17,7 @@ func TestLogger_Info(t *testing.T) {
 	attrs := map[string]any{
 		"msg":  "test info",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Info",
-		"file": "/Users/rinchsan/go/src/github.com/rinchsan/ringo/pkg/zlog/zlog_test.go",
+		"file": "/pkg/zlog/zlog_test.go",
 		"line": float64(31),
 	}
 	argsMap := map[string]any{
@@ -61,7 +61,7 @@ func TestLogger_Error(t *testing.T) {
 	attrs := map[string]any{
 		"msg":  "test error",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Error",
-		"file": "/Users/rinchsan/go/src/github.com/rinchsan/ringo/pkg/zlog/zlog_test.go",
+		"file": "/pkg/zlog/zlog_test.go",
 		"line": float64(75),
 	}
 	argsMap := map[string]any{
