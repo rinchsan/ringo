@@ -8,7 +8,12 @@ import (
 	"time"
 
 	"github.com/rinchsan/ringo/pkg/zlog"
+	"go.uber.org/goleak"
 )
+
+func TestMain(m *testing.M) {
+	goleak.VerifyTestMain(m)
+}
 
 func TestLogger_Info(t *testing.T) {
 	t.Parallel()
@@ -20,7 +25,7 @@ func TestLogger_Info(t *testing.T) {
 		"msg":  "test info",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Info",
 		"file": "/pkg/zlog/zlog_test.go",
-		"line": float64(33),
+		"line": float64(38),
 	}
 	argsMap := map[string]any{
 		"foo": "bar",
@@ -66,7 +71,7 @@ func TestLogger_Error(t *testing.T) {
 		"msg":  "test error",
 		"call": "github.com/rinchsan/ringo/pkg/zlog_test.TestLogger_Error",
 		"file": "/pkg/zlog/zlog_test.go",
-		"line": float64(79),
+		"line": float64(84),
 	}
 	argsMap := map[string]any{
 		"foo": "bar",
