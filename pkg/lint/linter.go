@@ -24,5 +24,3 @@ func (l *Linter) Run() error {
 	multichecker.Main(analyzers...)
 	return nil
 }
-
-var _, _, _, _ string
