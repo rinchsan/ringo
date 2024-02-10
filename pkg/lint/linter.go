@@ -1,6 +1,7 @@
 package lint
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/kisielk/errcheck/errcheck"
@@ -33,5 +34,6 @@ func NewLinter() *Linter {
 func (l *Linter) Run() error {
 	os.Args = slices.Delete(os.Args, 1, 2)
 	multichecker.Main(l.analyzers...)
+	fmt.Printf("%d", "string")
 	return nil
 }
