@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 
+	"github.com/gordonklaus/ineffassign/pkg/ineffassign"
 	"github.com/kisielk/errcheck/errcheck"
 	"github.com/rinchsan/groupvar"
 	"golang.org/x/exp/slices"
@@ -19,6 +20,7 @@ func NewLinter() *Linter {
 	analyzers := []*analysis.Analyzer{
 		groupvar.Analyzer,
 		errcheck.Analyzer,
+		ineffassign.Analyzer,
 	}
 
 	for _, v := range simple.Analyzers {

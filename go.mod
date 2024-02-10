@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/gordonklaus/ineffassign v0.1.0
 	github.com/kisielk/errcheck v1.7.0
 	github.com/rinchsan/groupvar v0.1.0
 	go.uber.org/goleak v1.3.0
