@@ -10,6 +10,7 @@ import (
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/multichecker"
 	"honnef.co/go/tools/simple"
+	"honnef.co/go/tools/staticcheck"
 )
 
 type Linter struct {
@@ -24,6 +25,10 @@ func NewLinter() *Linter {
 	}
 
 	for _, v := range simple.Analyzers {
+		analyzers = append(analyzers, v.Analyzer)
+	}
+
+	for _, v := range staticcheck.Analyzers {
 		analyzers = append(analyzers, v.Analyzer)
 	}
 
