@@ -8,21 +8,30 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/multichecker"
+	"honnef.co/go/tools/simple"
 )
 
-type Linter struct{}
-
-func NewLinter() *Linter {
-	return &Linter{}
+type Linter struct {
+	analyzers []*analysis.Analyzer
 }
 
-var analyzers = []*analysis.Analyzer{
-	groupvar.Analyzer,
-	errcheck.Analyzer,
+func NewLinter() *Linter {
+	analyzers := []*analysis.Analyzer{
+		groupvar.Analyzer,
+		errcheck.Analyzer,
+	}
+
+	for _, v := range simple.Analyzers {
+		analyzers = append(analyzers, v.Analyzer)
+	}
+
+	return &Linter{
+		analyzers: analyzers,
+	}
 }
 
 func (l *Linter) Run() error {
 	os.Args = slices.Delete(os.Args, 1, 2)
-	multichecker.Main(analyzers...)
+	multichecker.Main(l.analyzers...)
 	return nil
 }

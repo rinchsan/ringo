@@ -44,7 +44,7 @@ func TestLogger_Info(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if time.Now().Sub(now) > time.Second {
+	if time.Since(now) > time.Second {
 		t.Fatal("'time' does not describe current time")
 	}
 
@@ -90,7 +90,7 @@ func TestLogger_Error(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if time.Now().Sub(now) > time.Second {
+	if time.Since(now) > time.Second {
 		t.Fatal("'time' does not describe current time")
 	}
 

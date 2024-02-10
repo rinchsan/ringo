@@ -11,12 +11,14 @@ require (
 )
 
 require (
+	github.com/kisielk/errcheck v1.7.0
 	github.com/rinchsan/groupvar v0.1.0
 	go.uber.org/goleak v1.3.0
 	golang.org/x/tools v0.17.0
+	honnef.co/go/tools v0.4.6
 )
 
 require (
-	github.com/kisielk/errcheck v1.7.0 // indirect
+	golang.org/x/exp/typeparams v0.0.0-20221208152030-732eee02a75a // indirect
 	golang.org/x/mod v0.14.0 // indirect
 )
