@@ -38,7 +38,7 @@ func TestLogger_Info(t *testing.T) {
 	l.Info(attrs["msg"].(string), args...)
 
 	got := make(map[string]any)
-	json.Unmarshal(buf.Bytes(), &got)
+	_ = json.Unmarshal(buf.Bytes(), &got)
 
 	now, err := time.Parse("2006-01-02T15:04:05.999999Z07:00", got["time"].(string))
 	if err != nil {
@@ -84,7 +84,7 @@ func TestLogger_Error(t *testing.T) {
 	l.Error(err, args...)
 
 	got := make(map[string]any)
-	json.Unmarshal(buf.Bytes(), &got)
+	_ = json.Unmarshal(buf.Bytes(), &got)
 
 	now, err := time.Parse("2006-01-02T15:04:05.999999Z07:00", got["time"].(string))
 	if err != nil {

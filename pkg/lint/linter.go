@@ -3,6 +3,7 @@ package lint
 import (
 	"os"
 
+	"github.com/kisielk/errcheck/errcheck"
 	"github.com/rinchsan/groupvar"
 	"golang.org/x/exp/slices"
 	"golang.org/x/tools/go/analysis"
@@ -17,6 +18,7 @@ func NewLinter() *Linter {
 
 var analyzers = []*analysis.Analyzer{
 	groupvar.Analyzer,
+	errcheck.Analyzer,
 }
 
 func (l *Linter) Run() error {

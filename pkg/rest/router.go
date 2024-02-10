@@ -20,9 +20,11 @@ func router(logger *zlog.Logger) http.Handler {
 	})
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]interface{}{
+		if err := json.NewEncoder(w).Encode(map[string]interface{}{
 			"alive": true,
-		})
+		}); err != nil {
+			logger.Error(err)
+		}
 	})
 
 	return r
