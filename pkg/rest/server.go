@@ -2,8 +2,11 @@ package rest
 
 import (
 	"context"
+	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os/signal"
+	"runtime"
 	"syscall"
 	"time"
 
@@ -32,6 +35,12 @@ func NewServer(logger *zlog.Logger) *Server {
 func (s *Server) Run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
+
+	runtime.SetBlockProfileRate(1)
+	runtime.SetMutexProfileFraction(1)
+	go func() {
+		log.Fatal(http.ListenAndServe("localhost:6060", nil))
+	}()
 
 	errCh := make(chan error)
 	go func() {
